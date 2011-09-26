@@ -1,0 +1,1 @@
+SmartBrain BlackBerry Application for OS 6 or greater
