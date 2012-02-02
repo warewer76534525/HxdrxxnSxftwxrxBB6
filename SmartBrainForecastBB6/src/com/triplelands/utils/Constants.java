@@ -3,15 +3,15 @@ package com.triplelands.utils;
 import net.rim.device.api.system.DeviceInfo;
 
 public class Constants {
-	public static final String URL_SIGNALS = "http://hidreensoftware.com/index.php/m/signals";
-	public static final String URL_SIGNAL_DETAIL = "http://hidreensoftware.com/index.php/m/signals/view";
-	public static final String URL_NEWS = "http://hidreensoftware.com/index.php/m/news";
-	public static final String URL_NEWS_DETAIL = "http://hidreensoftware.com/index.php/m/news/view";
-	public static final String URL_ADD_COMMENT = "http://hidreensoftware.com/index.php/m/signals/add_comment";
-	public static final String URL_REGISTER = "http://www.hidreensoftware.com/index.php/m/members/register";
-	public static final String URL_LOGIN = "http://www.hidreensoftware.com/index.php/m/members/login";
-	public static final String URL_LOGOUT = "http://www.hidreensoftware.com/m/members/logout";
-	public static final String URL_CHECK_UPDATE = "http://www.hidreensoftware.com/m/updates/check/";
+	public static final String URL_SIGNALS = "http://mobrest.amygdalahd.com/signals";
+	public static final String URL_SIGNAL_DETAIL = "http://mobrest.amygdalahd.com/signals/view";
+	public static final String URL_NEWS = "http://mobrest.amygdalahd.com/news";
+	public static final String URL_NEWS_DETAIL = "http://mobrest.amygdalahd.com/news/view";
+	public static final String URL_ADD_COMMENT = "http://amygdalahd.com/index.php/m/signals/add_comment";
+	public static final String URL_REGISTER = "http://mobrest.amygdalahd.com/members/register";
+	public static final String URL_LOGIN = "http://mobrest.amygdalahd.com/members/login";
+	public static final String URL_LOGOUT = "http://mobrest.amygdalahd.com/members/logout";
+	public static final String URL_CHECK_UPDATE = "http://amygdalahd.com/m/updates/check/";
 	
 	public static final String[] TIME_ZONES = 
 		{
@@ -83,8 +83,13 @@ public class Constants {
 	
 	//Push Constants
 	
-	public static final int PUSH_PORT = 29818;
-	public static final String PUSH_APP_ID = "1898-23o05eehee192rys68";
-	public static final String URL_PUSH_REGISTER = "http://pushapi.eval.blackberry.com/mss/PD_subReg?serviceid=" + PUSH_APP_ID + "&model=" + DeviceInfo.getDeviceName();
-	public static final String URL_PUSH_UNREGISTER = "http://pushapi.eval.blackberry.com/mss/PD_subDereg?serviceid=" + PUSH_APP_ID + "&model=" + DeviceInfo.getDeviceName();
+//	public static final int PUSH_PORT = 30449;
+//	public static final String PUSH_APP_ID = "150406-64B4978D76r3r506ro59281i10y3l6157";
+//	public static final String URL_PUSH_REGISTER = "http://pushapi.eval.blackberry.com/mss/PD_subReg?serviceid=" + PUSH_APP_ID + "&model=" + DeviceInfo.getDeviceName();
+//	public static final String URL_PUSH_UNREGISTER = "http://pushapi.eval.blackberry.com/mss/PD_subDereg?serviceid=" + PUSH_APP_ID + "&model=" + DeviceInfo.getDeviceName();
+	
+	public static final int PUSH_PORT = 30449;
+	public static final String PUSH_APP_ID = "838-5B55ccBB51e9I3O02r0628c0932ha1755555";
+	public static final String URL_PUSH_REGISTER = "http://pushapi.na.blackberry.com/mss/PD_subReg?serviceid=" + PUSH_APP_ID + "&model=" + DeviceInfo.getDeviceName();
+	public static final String URL_PUSH_UNREGISTER = "http://pushapi.na.blackberry.com/mss/PD_subDereg?serviceid=" + PUSH_APP_ID + "&model=" + DeviceInfo.getDeviceName();
 }

@@ -1,28 +1,21 @@
 package com.triplelands.view;
 
-import java.util.Vector;
-
-import net.rim.device.api.system.EncodedImage;
 import net.rim.device.api.ui.Field;
-import net.rim.device.api.ui.Manager;
 import net.rim.device.api.ui.UiApplication;
-import net.rim.device.api.ui.container.HorizontalFieldManager;
 
 import com.triplelands.model.Signal;
-import com.triplelands.tools.ImageLoadingHandler;
-import com.triplelands.tools.ImagesDownloaderUtility;
 import com.triplelands.utils.DataProcessor;
 import com.triplelands.view.component.CustomButton;
 import com.triplelands.view.component.FormattedRichTextField;
-import com.triplelands.view.component.ImageField;
+import com.triplelands.view.component.SpaceField;
 
-public class SignalDetailScreen extends BaseScreen implements ImageLoadingHandler {
+public class SignalDetailScreen extends BaseScreen {
 	
 	private String json;
 	private DataProcessor processor;
 	private int id;
 	private Signal signal;
-	private Vector imgs;
+//	private Vector imgs;
 	
 	public SignalDetailScreen(String json) {
 		super("", false);
@@ -33,34 +26,38 @@ public class SignalDetailScreen extends BaseScreen implements ImageLoadingHandle
 		id = signal.getId();
 		System.out.println("id signal: " + id);
 		
-		String[] imagesUrl = processor.getImageUrls(json);
-		if(imagesUrl != null && imagesUrl.length > 0){
-			System.out.println("Will download images");
-			ImagesDownloaderUtility downloader = new ImagesDownloaderUtility(imagesUrl, this);
-			downloader.start();
-		} else {
+//		String[] imagesUrl = processor.getImageUrls(json);
+//		if(imagesUrl != null && imagesUrl.length > 0){
+//			System.out.println("Will download images");
+//			ImagesDownloaderUtility downloader = new ImagesDownloaderUtility(imagesUrl, this);
+//			downloader.start();
+//		} else {
 //			addTitle();
 			addMetaSignal();
+			addGraphButton();
 //			addListComments();
 //			addCommentButton();
-		}
+//		}
 	}
 
 	public void fieldChanged(Field field, int context) {
-		System.out.println("Field Changed");
 		if(field instanceof CustomButton){
-			UiApplication.getUiApplication().pushScreen(new AddCommentScreen(id));
+			if (context == 0) {
+				UiApplication.getUiApplication().pushScreen(new GraphViewerScreen("Graph", processor.getData(json, "graph"), false));
+			} else if (context == 1) {
+				UiApplication.getUiApplication().pushScreen(new AddCommentScreen(id));
+			}
 		}
 	}
 
-	public void onReceivedImage(Vector images) {
-		imgs = images;
-//		addTitle();
-		addMetaSignal();
-		addImagesHorizontally(images);
-//		addListComments();
-//		addCommentButton();
-	}
+//	public void onReceivedImage(Vector images) {
+////		imgs = images;
+////		addTitle();
+//		addMetaSignal();
+////		addImagesHorizontally(images);
+////		addListComments();
+////		addCommentButton();
+//	}
 	
 //	private void addTitle(){
 //		String textLabel = "Here Goes the Title";
@@ -83,7 +80,14 @@ public class SignalDetailScreen extends BaseScreen implements ImageLoadingHandle
 //		};
 //		rtf.setFont(Font.getDefault().derive(Font.PLAIN, 18));
 		
-		add(new FormattedRichTextField(processor.getMetaSignal(json)));
+		add(new FormattedRichTextField(processor.getData(json, "metasignal")));
+	}
+	
+	private void addGraphButton(){
+		CustomButton graphButton = new CustomButton("View Graph", 0, true);
+		graphButton.setChangeListener(this);
+		add(graphButton);
+		add(new SpaceField(5));
 	}
 	
 //	private void addListComments(){
@@ -96,14 +100,14 @@ public class SignalDetailScreen extends BaseScreen implements ImageLoadingHandle
 //		add(commentBtn);
 //	}
 	
-	private void addImagesHorizontally(Vector images){
-		HorizontalFieldManager hfm = new HorizontalFieldManager(Manager.HORIZONTAL_SCROLL);
-		
-		for (int i = 0; i < images.size(); i++) {
-			hfm.add(new ImageField((EncodedImage)images.elementAt(i), ImageField.ALIGN_LEFT, i));
-		}
-		add(hfm);
-	}
+//	private void addImagesHorizontally(Vector images){
+//		HorizontalFieldManager hfm = new HorizontalFieldManager(Manager.HORIZONTAL_SCROLL);
+//		
+//		for (int i = 0; i < images.size(); i++) {
+//			hfm.add(new ImageField((EncodedImage)images.elementAt(i), ImageField.ALIGN_LEFT, i));
+//		}
+//		add(hfm);
+//	}
 	
 	
 }

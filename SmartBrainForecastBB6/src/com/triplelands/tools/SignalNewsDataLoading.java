@@ -6,6 +6,7 @@ import java.io.InputStream;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.Dialog;
 
+import com.triplelands.datastore.DataStorer;
 import com.triplelands.utils.AppStatusManager;
 import com.triplelands.utils.DataProcessor;
 
@@ -37,17 +38,20 @@ public class SignalNewsDataLoading extends DataLoading {
 			final String json = sb.toString();
 			System.out.println("json: " + json);
 			final DataProcessor processor = new DataProcessor();
-			String status = processor.getResponseStatus(json);
+			String status = processor.getData(json, "status");
 			if(status != null && status.equals("0")){
 				UiApplication.getUiApplication().invokeLater(new Runnable() {
 					public void run() {
-						Dialog.alert(processor.getResponseMessage(json));
+						Dialog.alert(processor.getData(json, "message"));
 						AppStatusManager man = AppStatusManager.GetInstance();
 						man.logoutAndCloseAllScreen();
 					}
 				});
 			} else {
 				if(id == AppStatusManager.SIGNAL_ID){
+					DataStorer storer = new DataStorer();
+					storer.addData("expired", processor.getData(json, "expired"));
+					storer.addData("flashNews", processor.getData(json, "flashnews"));
 					handler.onDataCompleted(id, processor.getCategories(json));
 				} else {
 					handler.onDataCompleted(id, processor.getNewsList(json));

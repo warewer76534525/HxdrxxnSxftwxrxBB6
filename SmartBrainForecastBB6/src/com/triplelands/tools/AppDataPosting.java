@@ -29,10 +29,10 @@ public class AppDataPosting extends DataPosting {
 				final String json = sb.toString().trim();
 				System.out.println("RESPONSE POST: " + json);
 				final DataProcessor processor = new DataProcessor();
-				final String responseStr = (processor.getResponseMessage(json));
+				final String responseStr = (processor.getData(json, "message"));
 				UiApplication.getUiApplication().invokeLater(new Runnable() {
 					public void run() {
-						if(processor.getResponseStatus(json).equals("1")){
+						if(processor.getData(json, "status").equals("1")){
 							handler.onPostingSuccess(json);
 						}
 						Dialog.alert(responseStr);

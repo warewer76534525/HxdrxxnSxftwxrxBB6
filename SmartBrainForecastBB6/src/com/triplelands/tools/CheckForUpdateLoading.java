@@ -31,8 +31,8 @@ public class CheckForUpdateLoading extends DataLoading {
 			final String response = sb.toString();
 			UiApplication.getUiApplication().invokeLater(new Runnable() {public void run() {
 				DataProcessor processor = new DataProcessor();
-				String status = processor.getResponseStatus(response);
-				String message = processor.getResponseMessage(response);
+				String status = processor.getData(response, "status");
+				String message = processor.getData(response, "message");
 				if(status.equals("1")){
 					int ask = Dialog.ask(Dialog.D_YES_NO, "There is new update version. Do you want to update now?");
 					if(ask == Dialog.YES){

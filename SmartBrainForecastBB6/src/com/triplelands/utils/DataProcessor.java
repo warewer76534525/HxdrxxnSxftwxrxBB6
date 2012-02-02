@@ -88,15 +88,6 @@ public class DataProcessor {
 			return null;
 		}
 	}
-
-	public String getMetaSignal(String fullJson){
-		try {
-			JSONObject obj = new JSONObject(fullJson);
-			return obj.optString("metasignal");
-		} catch (JSONException e) {
-			return null;
-		}
-	}
 	
 	public int getType(String fullJson){
 		try {
@@ -106,15 +97,6 @@ public class DataProcessor {
 			return 9;
 		}
 	}
-	
-//	public String getImageUrl(String fullJson){
-//		try {
-//			JSONObject obj = new JSONObject(fullJson);
-//			return obj.getString("image");
-//		} catch (JSONException e) {
-//			return null;
-//		}
-//	}
 	
 	public String[] getImageUrls(String fullJson){
 		try {
@@ -221,26 +203,6 @@ public class DataProcessor {
 		return news;
 	}
 	
-	public String getResponseStatus(String json){
-		JSONObject obj;
-		try {
-			obj = new JSONObject(json);
-		} catch (JSONException e) {
-			return null;
-		}
-		return obj.optString("status");
-	}
-	
-	public String getResponseMessage(String json){
-		JSONObject obj;
-		try {
-			obj = new JSONObject(json);
-		} catch (JSONException e) {
-			return null;
-		}
-		return obj.optString("message");
-	}
-	
 	public Vector getKeyValueArray(String json){
 		try {
 			Vector data = new Vector();
@@ -255,19 +217,10 @@ public class DataProcessor {
 		}
 	}
 	
-	public String getEmail(String json){
+	public String getData(String json, String key){
 		try {
 			JSONObject obj = new JSONObject(json);
-			return obj.getString("email");
-		} catch (Exception e) {
-			return null;
-		}
-	}
-	
-	public String getSessionId(String json){
-		try {
-			JSONObject obj = new JSONObject(json);
-			return obj.getString("session_id");
+			return obj.getString(key);
 		} catch (Exception e) {
 			return null;
 		}

@@ -41,7 +41,7 @@ public class RegisterScreen extends BaseScreen implements PostingHandler {
 			add((CustomEditField)listField.elementAt(i));
 		}
 		addTimeZone();
-		CustomButton registerButton = new CustomButton("Register");
+		CustomButton registerButton = new CustomButton("Register", 0);
 		registerButton.setChangeListener(this);
 		add(registerButton);
 	}
@@ -114,7 +114,7 @@ public class RegisterScreen extends BaseScreen implements PostingHandler {
 	public void onPostingSuccess(String response) {
 		DataProcessor processor = new DataProcessor();
 		DataStorer store = new DataStorer();
-		store.addData("email", processor.getEmail(response));
+		store.addData("email", processor.getData(response, "email"));
 		close();
 	}
 

@@ -76,7 +76,7 @@ public class LogoutLoading extends DataLoading {
 				});
 			} else {
 				final DataProcessor processor = new DataProcessor();
-				if(processor.getResponseStatus(response).equals("1")){
+				if(processor.getData(response, "status").equals("1")){
 					storer.logout();
 					if(storer.isRegisteredForPush()){
 						//here unregistering push
@@ -94,7 +94,7 @@ public class LogoutLoading extends DataLoading {
 				} else {
 					UiApplication.getUiApplication().invokeLater(new Runnable() {
 						public void run() {
-							Dialog.alert(processor.getResponseMessage(response));
+							Dialog.alert(processor.getData(response, "message"));
 							close();
 						}
 					});

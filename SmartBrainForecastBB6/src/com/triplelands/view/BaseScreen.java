@@ -1,12 +1,16 @@
 package com.triplelands.view;
 
+import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.FieldChangeListener;
+import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Keypad;
+import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.container.HorizontalFieldManager;
 import net.rim.device.api.ui.container.MainScreen;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
+import com.triplelands.datastore.DataStorer;
 import com.triplelands.utils.AppStatusManager;
 import com.triplelands.view.component.HeaderField;
 import com.triplelands.view.component.TabButton;
@@ -55,10 +59,13 @@ public abstract class BaseScreen extends MainScreen implements FieldChangeListen
         
 		TabButton tabSignal = new TabButton(AppStatusManager.SIGNAL_ID, "Signal");
 		TabButton tabNews = new TabButton(AppStatusManager.NEWS_ID, "News");
+		LabelField lblEmail = new LabelField("\n" + new DataStorer().getData("email"), FIELD_VCENTER);
+		lblEmail.setFont(Font.getDefault().derive(Font.BOLD, 13));
 		tabSignal.setChangeListener(this);
 		tabNews.setChangeListener(this);
 		hfm.add(tabSignal);
 		hfm.add(tabNews);
+		hfm.add(lblEmail);
 		VerticalFieldManager vfm = new VerticalFieldManager();
 		vfm.add(new HeaderField());
 		vfm.add(hfm);

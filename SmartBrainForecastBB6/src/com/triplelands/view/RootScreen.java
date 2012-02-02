@@ -5,12 +5,13 @@ import java.io.InputStream;
 import java.util.Vector;
 
 import net.rim.device.api.system.Application;
-import net.rim.device.api.system.ApplicationDescriptor;
 import net.rim.device.api.ui.Field;
+import net.rim.device.api.ui.Font;
 import net.rim.device.api.ui.Keypad;
 import net.rim.device.api.ui.MenuItem;
 import net.rim.device.api.ui.UiApplication;
 import net.rim.device.api.ui.component.Dialog;
+import net.rim.device.api.ui.component.LabelField;
 import net.rim.device.api.ui.container.VerticalFieldManager;
 
 import com.triplelands.datastore.DataStorer;
@@ -21,7 +22,6 @@ import com.triplelands.push.AppLog;
 import com.triplelands.push.BpasProtocol;
 import com.triplelands.push.PushLibFactory;
 import com.triplelands.push.PushMessageListener;
-import com.triplelands.tools.CheckForUpdateLoading;
 import com.triplelands.tools.DetailLoading;
 import com.triplelands.tools.InternetConnection;
 import com.triplelands.tools.InternetConnectionListener;
@@ -68,6 +68,11 @@ public class RootScreen extends BaseScreen implements TabDataDownloadHandler, In
 		deleteAll();
 		vfManager = null;
 		vfManager = new VerticalFieldManager();
+		
+		populateExpiredLabel();
+		populateLicenseLabel();
+		populateFlashNewsLabel();
+		
 		for (int i = 0; i < data.size(); i++) {
 			Category cat = (Category)data.elementAt(i);
 			Vector signals = cat.getSignals();
@@ -81,6 +86,35 @@ public class RootScreen extends BaseScreen implements TabDataDownloadHandler, In
 		}
 		
 		add(vfManager);
+	}
+	
+	private void populateExpiredLabel(){
+		LabelField lblExpired = new LabelField(" Account expired on: " + storer.getData("expired"));
+		lblExpired.setFont(Font.getDefault().derive(Font.PLAIN, 16));
+		vfManager.add(lblExpired);
+	}
+	
+	private void populateLicenseLabel(){
+		String license = storer.getData("license");
+		LabelField lblLicense = new LabelField();
+		if (license.equals("")) {
+			lblLicense.setText(" License: Please logout and login again to generate your license.");
+		} else{
+			lblLicense.setText(" License: " + storer.getData("license"));
+		}
+		
+		lblLicense.setFont(Font.getDefault().derive(Font.PLAIN, 16));
+		vfManager.add(lblLicense);
+	}
+	
+	private void populateFlashNewsLabel(){
+		String flashNews = storer.getData("flashNews");
+		LabelField lblFlashNews = new LabelField();
+		lblFlashNews.setFont(Font.getDefault().derive(Font.PLAIN, 16));
+		if (!flashNews.equals("")) {
+			lblFlashNews.setText(storer.getData("flashNews"));
+			vfManager.add(lblFlashNews);
+		}
 	}
 	
 	private void initNewsList(Vector data){
@@ -134,11 +168,11 @@ public class RootScreen extends BaseScreen implements TabDataDownloadHandler, In
 				refreshData();
 			}
 		});
-		addMenuItem(new MenuItem("Check for update", 0, 6){
-			public void run() {
-				checkForUpdate();
-			}
-		});
+//		addMenuItem(new MenuItem("Check for update", 0, 6){
+//			public void run() {
+//				checkForUpdate();
+//			}
+//		});
 		addMenuItem(new MenuItem("Logout", 0, 7){
 			public void run() {
 				int ask = Dialog.ask(Dialog.D_YES_NO, "Are you sure to logout? You will not be notified until you re-login.");
@@ -149,10 +183,10 @@ public class RootScreen extends BaseScreen implements TabDataDownloadHandler, In
 		});
 	}
 	
-	private void checkForUpdate() {
-		String urlUpdate = Constants.URL_CHECK_UPDATE + "bb/" + StringUtils.getOSVersion() + "/" + ApplicationDescriptor.currentApplicationDescriptor().getVersion();
-		UiApplication.getUiApplication().pushScreen(new CheckForUpdateLoading(urlUpdate));
-	}
+//	private void checkForUpdate() {
+//		String urlUpdate = Constants.URL_CHECK_UPDATE + "bb/" + StringUtils.getOSVersion() + "/" + ApplicationDescriptor.currentApplicationDescriptor().getVersion();
+//		UiApplication.getUiApplication().pushScreen(new CheckForUpdateLoading(urlUpdate));
+//	}
 	
 	private void refreshData(){
 		int id = statusManager.getActiveId();

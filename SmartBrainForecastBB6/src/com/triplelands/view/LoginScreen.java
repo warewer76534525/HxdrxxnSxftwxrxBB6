@@ -42,9 +42,9 @@ public class LoginScreen extends BaseScreen implements PostingHandler {
 		
 		HorizontalFieldManager hfm = new HorizontalFieldManager();
 		
-		login = new CustomButton("Login");
+		login = new CustomButton("Login", 0);
 		login.setChangeListener(this);
-		reg = new CustomButton("Register");
+		reg = new CustomButton("Register", 1);
 		reg.setChangeListener(this);
 		
 		hfm.add(login);
@@ -90,7 +90,6 @@ public class LoginScreen extends BaseScreen implements PostingHandler {
 					"&__submit=login";
 				UiApplication.getUiApplication().pushScreen(new AppDataPosting(Constants.URL_LOGIN, param, this));
 			}
-		
 		}
 	}
 
@@ -98,8 +97,13 @@ public class LoginScreen extends BaseScreen implements PostingHandler {
 		//Success Login
 		System.out.println("Respon: " + response);
 		DataProcessor processor = new DataProcessor();
-		store.addData("email", processor.getEmail(response));
-		store.addData("session", processor.getSessionId(response));
+		store.addData("email", processor.getData(response, "email"));
+		store.addData("session", processor.getData(response, "session_id"));
+		store.addData("license", processor.getData(response, "license"));
+		store.addData("name", processor.getData(response, "name"));
+		store.addData("country", processor.getData(response, "country"));
+		store.addData("city", processor.getData(response, "city"));
+		store.addData("phone", processor.getData(response, "phone"));
 		UiApplication.getUiApplication().pushScreen(new RootScreen("Home"));
 		this.close();
 	}

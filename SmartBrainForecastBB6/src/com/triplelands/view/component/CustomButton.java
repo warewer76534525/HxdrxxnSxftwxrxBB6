@@ -1,5 +1,6 @@
 package com.triplelands.view.component;
 
+import net.rim.device.api.system.Display;
 import net.rim.device.api.ui.Color;
 import net.rim.device.api.ui.Field;
 import net.rim.device.api.ui.Font;
@@ -14,21 +15,37 @@ public class CustomButton extends Field {
 	private int fieldHeight;
 	private int backgroundColor;
 	private int fontHeight;
+	private boolean fillParentWidth;
 	
-	private int BUTTON_ID = 1;
+	private int id = 1;
 	
-	public CustomButton(String label) {
+	public CustomButton(String label, int contextId) {
 		super(Field.FOCUSABLE);
+		initCustomButton(label, contextId, false);
+	}
+	
+	public CustomButton(String label, int contextId, boolean fillParentWidth) {
+		super(Field.FOCUSABLE);
+		initCustomButton(label, contextId, fillParentWidth);
+	}
+	
+	public void initCustomButton(String label, int contextId, boolean fillParentWidth){
 		this.label = label;
+		this.id = contextId;
+		this.fillParentWidth = fillParentWidth;
 		Font font = Font.getDefault();
 		fontHeight = font.getHeight();
-		fieldHeight = font.getHeight() + padding;
+		fieldHeight = font.getHeight() + (padding);
 		fieldWidth = font.getAdvance(label) + (2 * padding);
 		backgroundColor = 0xd44836;
 	}
 	
 	protected void layout(int width, int height) {
-		setExtent(fieldWidth, fieldHeight);
+		if (fillParentWidth) {
+			setExtent(Display.getWidth(), fieldHeight);
+		} else {
+			setExtent(fieldWidth, fieldHeight);
+		}
 	}
 	
 	protected void onFocus(int direction) {
@@ -42,10 +59,17 @@ public class CustomButton extends Field {
 	}
 	
 	protected void paint(Graphics graphics) {
-		graphics.setColor(backgroundColor);
-        graphics.fillRoundRect(padding / 2, padding / 2, fieldWidth - padding, fieldHeight, 3, 3);  
-        graphics.setColor(Color.WHITE);
-        graphics.drawText(label, padding, (fieldHeight / 2) - (fontHeight / 2) + (padding / 4));
+		if (fillParentWidth) {
+			graphics.setColor(backgroundColor);
+			graphics.fillRoundRect(padding / 2, padding / 2, Display.getWidth() - padding, fieldHeight, 3, 3);  
+	        graphics.setColor(Color.WHITE);
+	        graphics.drawText(label, (Display.getWidth() / 2) - (padding * 2), (fieldHeight / 2) - (fontHeight / 2) + (padding / 4));
+		} else {
+			graphics.setColor(backgroundColor);
+			graphics.fillRoundRect(padding / 2, padding / 2, fieldWidth - padding, fieldHeight, 3, 3);  
+	        graphics.setColor(Color.WHITE);
+	        graphics.drawText(label, padding, (fieldHeight / 2) - (fontHeight / 2) + (padding / 4));
+		}
 	}
 	
 	protected void drawFocus(Graphics graphics, boolean on) {	
@@ -53,13 +77,13 @@ public class CustomButton extends Field {
 
 	protected boolean keyChar(char character, int status, int time) {
 		if (character == Keypad.KEY_ENTER) {
-			fieldChangeNotify(BUTTON_ID);
+			fieldChangeNotify(id);
 		}
 		return true;
 	}
 	
 	protected boolean navigationClick(int status, int time) {
-		fieldChangeNotify(BUTTON_ID);
+		fieldChangeNotify(id);
 		return true;
 	}
 }

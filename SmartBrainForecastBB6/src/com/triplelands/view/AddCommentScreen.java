@@ -31,7 +31,7 @@ public class AddCommentScreen extends PopupScreen implements PostingHandler {
 		commentField = new BasicEditField("Comment : ", "");
 		add(commentField);
 		
-		CustomButton submit = new CustomButton("Submit");
+		CustomButton submit = new CustomButton("Submit", 0);
 		submit.setChangeListener(new FieldChangeListener() {
 			public void fieldChanged(Field field, int context) {
 				processData(id);
